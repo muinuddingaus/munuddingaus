@@ -39,7 +39,7 @@
     font:inherit;font-size:16px;color:var(--ink);outline:none;transition:border-color .15s, box-shadow .15s;
   }
   input:focus{border-color:var(--teal);box-shadow:0 0 0 4px rgba(10,126,156,.12)}
-  .row2{display:grid;grid-template-columns:110px 1fr;gap:12px;margin-bottom:12px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
   .field{margin-bottom:12px}
   .field:last-child{margin-bottom:0}
 
@@ -173,9 +173,10 @@
       <section class="panel">
         <h2 data-en="Details" data-bn="বিস্তারিত">Details</h2>
         <div class="row2">
-          <div><label for="days" data-en="Days" data-bn="দিন">Days</label><input id="days" type="number" min="0" step="1" value="0" inputmode="numeric"></div>
+          <div><label for="title1" data-en="Title (1st line)" data-bn="শিরোনাম (প্রথম লাইন)">Title (1st line)</label><input id="title1" type="text" value="Last 0 Days" maxlength="32"></div>
           <div><label for="title2" data-en="Title (2nd line)" data-bn="শিরোনাম (দ্বিতীয় লাইন)">Title (2nd line)</label><input id="title2" type="text" value="Activity of Me" maxlength="32"></div>
         </div>
+        <div class="field"><label for="days" data-en="Days (optional counter)" data-bn="দিন (ঐচ্ছিক হিসাব)">Days (optional counter)</label><input id="days" type="number" min="0" step="1" value="0" inputmode="numeric"></div>
         <div class="field"><label for="loc" data-en="Location" data-bn="অবস্থান">Location</label><input id="loc" type="text" value="Bangladesh" maxlength="60"></div>
       </section>
 
@@ -210,7 +211,7 @@
       <div class="frame">
         <canvas id="story" width="1080" height="1920"></canvas>
       </div>
-      <button class="btn primary" id="dlBtn" type="button" data-en="⬇ Download PNG (1080 × 1920)" data-bn="⬇ PNG ডাউনলোড (1080 × 1920)" style="width:100%;margin-top:14px;font-size:16px;padding:16px">⬇ Download PNG (1080 × 1920)</button>
+      <button class="btn primary" id="dlBtn" type="button" data-en="Download PNG (1080 × 1920)" data-bn="PNG ডাউনলোড (1080 × 1920)" style="width:100%;margin-top:14px;font-size:16px;padding:16px">Download PNG (1080 × 1920)</button>
     </aside>
   </div>
 </div>
@@ -385,8 +386,17 @@ if (typeof module !== 'undefined') module.exports = QR;
 /* ---------- constants ---------- */
 const W = 1080, H = 1920, HERO_H = 580, SCENE_H = 640, SCENE_SHIFT = 60;
 const FONT = '"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif';
-const INK = '#0b1b2b', TEAL = '#0a7e9c', MUTED = '#4a5a6c', BG = '#f1f7fb';
-const QR_URL = 'https://muinuddingaus.vercel.app/tools';
+let INK = '#0b1b2b', TEAL = '#0a7e9c', MUTED = '#4a5a6c', BG = '#f1f7fb';
+let CARD = 'rgba(255,255,255,.95)', THEME_DARK = false;
+function syncCanvasTheme(){
+  THEME_DARK = document.documentElement.dataset.theme === 'dark';
+  INK = THEME_DARK ? '#e8f0f4' : '#0b1b2b';
+  TEAL = THEME_DARK ? '#55c5df' : '#0a7e9c';
+  MUTED = THEME_DARK ? '#b4c5d0' : '#4a5a6c';
+  BG = THEME_DARK ? '#101c24' : '#f1f7fb';
+  CARD = THEME_DARK ? 'rgba(23,38,49,.97)' : 'rgba(255,255,255,.95)';
+}
+const QR_URL = 'https://muinuddingaus.vercel.app/tools/activity-tracker';
 
 const MODES = {
   walk:    { label: 'Walking',          color: '#5db37b', dark: '#3f9461', tint: '#e0f4e7', icon: '#2f9a5a' },
@@ -406,11 +416,11 @@ const NAME_FOR = { rickshaw:'Rickshaw', boat:'Boat', ship:'Ship', climb:'Climbin
                    transit:'Public transport', moto:'Motorcycling', taxi:'Taxi' };
 function defaultMeta(k){ return { label: MODES[k].label, icon: k, custom: false }; }
 
-const SAMPLE = { days: 0, title2: 'Activity of Me', loc: 'Bangladesh',
+const SAMPLE = { days: 0, title1: 'Last 0 Days', title2: 'Activity of Me', loc: 'Bangladesh',
                  vals: { walk: 0, bike: 0, transit: 0, moto: 0, taxi: 0 } };
 
 const state = {
-  days: SAMPLE.days, title2: SAMPLE.title2, loc: SAMPLE.loc,
+  days: SAMPLE.days, title1: SAMPLE.title1, title2: SAMPLE.title2, loc: SAMPLE.loc,
   vals: Object.assign({}, SAMPLE.vals),
   scene: 0, photo: null, zoom: 1, px: 50, py: 50, meta: {},
 };
@@ -729,7 +739,7 @@ function drawCover(img, x, y, w, h, zoom, px, py){
 function card(x, y, w, h, r){
   c.save();
   c.shadowColor = 'rgba(24,70,100,.13)'; c.shadowBlur = 34; c.shadowOffsetY = 10;
-  rr(c, x, y, w, h, r || 34); c.fillStyle = 'rgba(255,255,255,.95)'; c.fill();
+  rr(c, x, y, w, h, r || 34); c.fillStyle = CARD; c.fill();
   c.restore();
 }
 function pinIcon(x, y, s, col){
@@ -740,6 +750,7 @@ function pinIcon(x, y, s, col){
 }
 
 function render(){
+  syncCanvasTheme();
   const d = calc();
   c.clearRect(0, 0, W, H);
   c.textBaseline = 'alphabetic'; c.textAlign = 'left';
@@ -764,7 +775,7 @@ function render(){
   /* title block */
   const days = Math.max(0, Math.round(parseFloat(state.days) || 0));
   const bn = document.documentElement.lang === 'bn';
-  const line1 = bn ? `গত ${days} দিন` : `Last ${days} ${days === 1 ? 'Day' : 'Days'}`;
+  const line1 = (state.title1 || '').trim() || 'Last 0 Days';
   const line2 = (state.title2 || '').trim() || 'Activity of Me';
   const loc = (state.loc || '').trim();
   c.save();
@@ -866,12 +877,15 @@ function render(){
   c.fillStyle = INK;
   for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (qr.matrix[y][x]) c.fillRect(qx + x * cell, qy + y * cell, cell, cell);
   const tl1 = 'Create your own activity records, scan the QR';
-  const tl2 = 'or visit  https://cutt.ly/Gaus_TR  to generate.';
+  const tl2 = 'or visit https://cutt.ly/Gaus_TR to generate.';
   const tw = qx - (CX + 40) - 22;
   let fs = 32; c.font = `600 ${fs}px ${FONT}`;
   while ((c.measureText(tl1).width > tw || c.measureText(tl2).width > tw) && fs > 14) { fs -= 1; c.font = `600 ${fs}px ${FONT}`; }
   c.fillStyle = INK; c.fillText(tl1, CX + 40, FY + FH / 2 - 8);
-  c.fillStyle = TEAL; c.fillText(tl2, CX + 40, FY + FH / 2 + fs + 6);
+  c.fillStyle = INK; c.fillText('or visit', CX + 40, FY + FH / 2 + fs + 6);
+  const prefix = 'or visit '; const linkText = 'https://cutt.ly/Gaus_TR';
+  c.fillStyle = INK; c.fillText(prefix, CX + 40, FY + FH / 2 + fs + 6);
+  c.fillStyle = TEAL; c.fillText(linkText, CX + 40 + c.measureText(prefix).width, FY + FH / 2 + fs + 6);
 }
 
 /* ---------- UI wiring ---------- */
@@ -933,6 +947,7 @@ function refreshRow(k){
   R.btns.forEach(b => b.classList.toggle('sel', b.dataset.icon === mt.icon));
 }
 $('days').addEventListener('input', e => { state.days = e.target.value; schedule(); });
+$('title1').addEventListener('input', e => { state.title1 = e.target.value; schedule(); });
 $('title2').addEventListener('input', e => { state.title2 = e.target.value; schedule(); });
 $('loc').addEventListener('input', e => { state.loc = e.target.value; schedule(); });
 
@@ -986,8 +1001,8 @@ $('posx').addEventListener('input', e => { state.px = +e.target.value; schedule(
 $('posy').addEventListener('input', e => { state.py = +e.target.value; schedule(); });
 
 $('resetBtn').addEventListener('click', () => {
-  state.days = SAMPLE.days; state.title2 = SAMPLE.title2; state.loc = SAMPLE.loc; state.vals = Object.assign({}, SAMPLE.vals);
-  $('days').value = state.days; $('title2').value = state.title2; $('loc').value = state.loc;
+  state.days = SAMPLE.days; state.title1 = SAMPLE.title1; state.title2 = SAMPLE.title2; state.loc = SAMPLE.loc; state.vals = Object.assign({}, SAMPLE.vals);
+  $('days').value = state.days; $('title1').value = state.title1; $('title2').value = state.title2; $('loc').value = state.loc;
   ROW_ORDER.forEach(k => { $('v-' + k).value = state.vals[k]; state.meta[k] = defaultMeta(k); refreshRow(k); });
   schedule();
 });
@@ -1027,14 +1042,14 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { re
 /* Activity Tracker page-only translations for dynamic controls and canvas labels. */
 (function(){
   const bn = {
-    'Walking':'হেঁটে চলা','Cycling':'সাইকেল','Public transport':'গণপরিবহন','Motorcycling':'মোটরসাইকেল','Taxi':'ট্যাক্সি',
+    'Title (1st line)':'শিরোনাম (প্রথম লাইন)','Title (2nd line)':'শিরোনাম (দ্বিতীয় লাইন)','Days (optional counter)':'দিন (ঐচ্ছিক হিসাব)','Walking':'হেঁটে চলা','Cycling':'সাইকেল','Public transport':'গণপরিবহন','Motorcycling':'মোটরসাইকেল','Taxi':'ট্যাক্সি',
     'Bus':'বাস','Train':'ট্রেন','Metro':'মেট্রো','Swimming':'সাঁতার','Field name':'ফিল্ডের নাম',
     'Type anything, e.g. Train':'যেকোনো নাম লিখুন, যেমন ট্রেন','Choose an icon':'আইকন বেছে নিন',
     '↺ Restore original':'↺ আগেরটি ফিরিয়ে আনুন','Done':'সম্পন্ন','✎ Replace':'✎ পরিবর্তন',
     'Upload':'আপলোড','Total Travel Distance':'মোট ভ্রমণ দূরত্ব','Last':'গত','Day':'দিন','Days':'দিন'
   };
   const en = {
-    'হেঁটে চলা':'Walking','সাইকেল':'Cycling','গণপরিবহন':'Public transport','মোটরসাইকেল':'Motorcycling','ট্যাক্সি':'Taxi',
+    'শিরোনাম (প্রথম লাইন)':'Title (1st line)','শিরোনাম (দ্বিতীয় লাইন)':'Title (2nd line)','দিন (ঐচ্ছিক হিসাব)':'Days (optional counter)','হেঁটে চলা':'Walking','সাইকেল':'Cycling','গণপরিবহন':'Public transport','মোটরসাইকেল':'Motorcycling','ট্যাক্সি':'Taxi',
     'বাস':'Bus','ট্রেন':'Train','মেট্রো':'Metro','সাঁতার':'Swimming','ফিল্ডের নাম':'Field name',
     'যেকোনো নাম লিখুন, যেমন ট্রেন':'Type anything, e.g. Train','আইকন বেছে নিন':'Choose an icon',
     '↺ আগেরটি ফিরিয়ে আনুন':'↺ Restore original','সম্পন্ন':'Done','✎ পরিবর্তন':'✎ Replace','আপলোড':'Upload',
@@ -1055,8 +1070,10 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { re
   const langButton=document.getElementById('lang');
   if(langButton) langButton.addEventListener('click',()=>setTimeout(translateDynamic,0));
   const themeButton=document.getElementById('theme');
-  if(themeButton) themeButton.addEventListener('click',()=>setTimeout(()=>document.documentElement.dataset.theme=document.documentElement.dataset.theme||'light',0));
-  document.addEventListener('click',e=>{if(e.target.closest('#lang'))setTimeout(translateDynamic,0)});
+  if(themeButton) themeButton.addEventListener('click',()=>setTimeout(()=>{ if(window.__activityRender) window.__activityRender(); },50));
+  document.addEventListener('click',e=>{if(e.target.closest('#lang'))setTimeout(translateDynamic,0); if(e.target.closest('#theme'))setTimeout(()=>{if(window.__activityRender)window.__activityRender()},80)});
+  const themeObserver = new MutationObserver(()=>{if(window.__activityRender)window.__activityRender()});
+  themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
   setTimeout(translateDynamic,0);
 })();
 </script>
