@@ -15,47 +15,79 @@
   <title>Tools | Muinuddin Gaus</title>
 
   <style>
-    /* Balanced spacing for the Tools page */
-    .tools-page .page-h:first-child {
-      margin-bottom: 24px;
+    /* Compact layout for the Tools page */
+    .tools-page {
+      display: block;
     }
 
-    .tools-page .tools-section {
+    /* Main page heading */
+    .tools-page > .page-h:first-child {
+      margin: 0 0 12px !important;
+      padding: 0 !important;
+      min-height: 0 !important;
+      height: auto !important;
+    }
+
+    .tools-page > .page-h:first-child h1 {
       margin-top: 0;
-      padding-top: 0;
+      margin-bottom: 10px;
     }
 
-    .tools-page .tools-section + .tools-section {
-      margin-top: 36px;
+    .tools-page > .page-h:first-child .sub {
+      margin-top: 0;
+      margin-bottom: 0;
     }
 
-    .tools-page .page-h h1 {
-      margin-bottom: 12px;
+    /* Published and Ready to Publish sections */
+    .tools-page > .tools-section {
+      margin: 0 !important;
+      padding: 0 !important;
+      min-height: 0 !important;
+      height: auto !important;
+    }
+
+    .tools-page > .tools-section > .page-h {
+      margin: 0 0 12px !important;
+      padding: 0 !important;
+      min-height: 0 !important;
+      height: auto !important;
     }
 
     .tools-page .page-h h2 {
-      margin-bottom: 8px;
+      margin-top: 0;
+      margin-bottom: 6px;
     }
 
     .tools-page .page-h .sub {
       margin-top: 0;
+      margin-bottom: 0;
     }
 
+    /* Tool cards */
     .tools-page .grid {
-      margin-top: 24px;
+      margin-top: 12px !important;
+    }
+
+    /* Space between the two tool categories */
+    .tools-page > .tools-section + .tools-section {
+      margin-top: 30px !important;
     }
 
     @media (max-width: 768px) {
-      .tools-page .page-h:first-child {
-        margin-bottom: 24px;
+      .tools-page > .page-h:first-child {
+        margin-bottom: 12px !important;
       }
 
-      .tools-page .tools-section + .tools-section {
-        margin-top: 24px;
+      .tools-page > .tools-section > .page-h {
+        margin-bottom: 10px !important;
       }
 
       .tools-page .grid {
-        margin-top: 18px;
+        margin-top: 10px !important;
+      }
+
+      .tools-page > .tools-section + .tools-section {
+        margin-top: 24px !important;
       }
     }
   </style>
@@ -77,7 +109,7 @@
       </p>
     </div>
 
-    <!-- Published -->
+    <!-- Published tools -->
     <section class="tools-section" aria-labelledby="published-heading">
       <div class="page-h">
         <h2 id="published-heading"
@@ -95,11 +127,15 @@
 
       <div class="grid">
 
+        <!-- Activity Tracker -->
         <a class="icon-card" href="tools/activity-tracker.html">
           <span class="context-icon">
-            <svg viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="1.8"
-                 stroke-linecap="round" stroke-linejoin="round"
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.8"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
                  aria-hidden="true">
               <circle cx="12" cy="12" r="9"></circle>
               <path d="M12 7v5l3 2"></path>
@@ -119,7 +155,7 @@
       </div>
     </section>
 
-    <!-- Ready to Publish -->
+    <!-- Ready to Publish tools -->
     <section class="tools-section" aria-labelledby="ready-heading">
       <div class="page-h">
         <h2 id="ready-heading"
@@ -140,9 +176,12 @@
         <!-- Robi Number Finder -->
         <a class="icon-card" href="tools/robi-number.html">
           <span class="context-icon">
-            <svg viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="1.8"
-                 stroke-linecap="round" stroke-linejoin="round"
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.8"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
                  aria-hidden="true">
               <rect x="6" y="3" width="12" height="18" rx="2"></rect>
               <path d="M9 6h6M9 18h6"></path>
@@ -162,9 +201,12 @@
         <!-- ChatGPT Patch Image Enhancer -->
         <a class="icon-card" href="tools/batch-image.html">
           <span class="context-icon">
-            <svg viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="1.8"
-                 stroke-linecap="round" stroke-linejoin="round"
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.8"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
                  aria-hidden="true">
               <rect x="3" y="4" width="13" height="13" rx="2"></rect>
               <path d="M7 8h5M7 11h5"></path>
