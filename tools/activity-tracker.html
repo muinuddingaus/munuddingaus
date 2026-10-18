@@ -8,18 +8,19 @@
 <link rel="icon" type="image/jpeg" href="../images/profile-logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Hind+Siliguri:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --teal:#0a7e9c; --teal-d:#08647c; --ink:#0b1b2b; --muted:#5b6b7c;
-    --line:#dce7f0; --card:#ffffff; --soft:#f1f7fb;
+    --line:#dce7f0; --card:#ffffff; --soft:#f1f7fb; --field:#fbfdff;
+    --page-bg:linear-gradient(180deg,#e5f3fa 0,#f3f8fb 380px);
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
   body{
     margin:0; color:var(--ink);
     font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-    background:linear-gradient(180deg,#dff1fb 0,#f1f7fb 380px);
+    background:var(--page-bg);
     min-height:100vh;
   }
   .wrap{max-width:1040px;margin:0 auto;padding:22px 16px 56px}
@@ -34,7 +35,7 @@
 
   label{display:block;font-size:13px;font-weight:600;color:#33485c;margin:0 0 6px}
   input[type=text],input[type=number]{
-    width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fbfdff;
+    width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--field);
     font:inherit;font-size:16px;color:var(--ink);outline:none;transition:border-color .15s, box-shadow .15s;
   }
   input:focus{border-color:var(--teal);box-shadow:0 0 0 4px rgba(10,126,156,.12)}
@@ -107,6 +108,42 @@
   .ib:hover{border-color:#9fd0de}
   .ib.sel{border-color:var(--teal);background:#e6f5fa;box-shadow:0 0 0 3px rgba(10,126,156,.15)}
   .edact{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+  /* Activity Tracker only: compact shared header, matching this page's palette. */
+  body > header{
+    padding:10px 0 !important;
+    background:color-mix(in srgb, var(--page-bg-color, #f3f8fb) 90%, transparent) !important;
+    border-bottom:1px solid var(--line);
+  }
+  body > header .wrap.bar{
+    max-width:1180px !important;
+    width:100%;
+    margin:0 auto !important;
+    padding:0 20px !important;
+    min-height:42px;
+    gap:12px;
+  }
+  body > header .brand{color:var(--ink) !important;gap:10px}
+  body > header nav{background:var(--sand, #ece5d8) !important;border:1px solid var(--line);}
+  body > header nav a{color:var(--muted, #5b6b7c) !important}
+  body > header nav a.on{background:var(--card) !important;color:var(--ink) !important}
+  body > header .pill, body > header .icon-btn{
+    border:1px solid var(--line) !important;background:var(--card) !important;
+    color:var(--ink) !important;box-shadow:0 2px 8px rgba(24,70,100,.05);
+  }
+  body > header .pill:hover, body > header .icon-btn:hover{border-color:var(--teal) !important}
+  html[data-theme="dark"]{
+    --ink:#e8f0f4; --muted:#aabac5; --line:#30434f; --card:#172631; --soft:#1b303d; --field:#13232d;
+    --page-bg-color:#101c24;
+  }
+  html[data-theme="dark"] body{background:linear-gradient(180deg,#132b38 0,#101c24 380px);color:var(--ink)}
+  html[data-theme="dark"] .panel{background:var(--card);color:var(--ink);box-shadow:0 10px 34px rgba(0,0,0,.18)}
+  html[data-theme="dark"] label, html[data-theme="dark"] .sl{color:#c7d6df}
+  html[data-theme="dark"] input[type=text], html[data-theme="dark"] input[type=number]{background:var(--field);color:var(--ink);border-color:var(--line)}
+  html[data-theme="dark"] .totalbar, html[data-theme="dark"] .editor{background:var(--soft)}
+  html[data-theme="dark"] .btn.ghost, html[data-theme="dark"] .mini{background:#253e4b;color:#d8e8ef}
+  html[data-theme="dark"] .ib{background:#192c37;color:#d8e8ef;border-color:var(--line)}
+  html[data-theme="dark"] .frame{background:#172631}
+
   /* Keep the shared website header compact on phones. */
   @media (max-width:760px){
     body > header nav{display:none !important}
@@ -126,46 +163,46 @@
 <body>
 <div class="wrap">
   <div class="activity-header">
-    <h1>Activity <span>Story</span> Generator</h1>
-    <p>Enter your numbers — the chart, bars and percentages update automatically. Download a 9:16 PNG for Instagram stories.</p>
+    <h1><span data-en="Activity" data-bn="কার্যক্রম">Activity</span> <span data-en="Story" data-bn="স্টোরি" class="accent-word">Story</span> <span data-en="Generator" data-bn="জেনারেটর">Generator</span></h1>
+    <p data-en="Enter your numbers. The chart, bars and percentages update automatically. Download a 9:16 PNG for Instagram stories." data-bn="আপনার তথ্য লিখুন। চার্ট, বার এবং শতাংশ স্বয়ংক্রিয়ভাবে আপডেট হবে। Instagram স্টোরির জন্য 9:16 PNG ডাউনলোড করুন।">Enter your numbers. The chart, bars and percentages update automatically. Download a 9:16 PNG for Instagram stories.</p>
   </div>
 
   <div class="grid">
     <!-- ============ CONTROLS ============ -->
     <div class="controls">
       <section class="panel">
-        <h2>Details</h2>
+        <h2 data-en="Details" data-bn="বিস্তারিত">Details</h2>
         <div class="row2">
-          <div><label for="days">Days</label><input id="days" type="number" min="0" step="1" value="0" inputmode="numeric"></div>
-          <div><label for="title2">Title (2nd line)</label><input id="title2" type="text" value="Activity of Me" maxlength="32"></div>
+          <div><label for="days" data-en="Days" data-bn="দিন">Days</label><input id="days" type="number" min="0" step="1" value="0" inputmode="numeric"></div>
+          <div><label for="title2" data-en="Title (2nd line)" data-bn="শিরোনাম (দ্বিতীয় লাইন)">Title (2nd line)</label><input id="title2" type="text" value="Activity of Me" maxlength="32"></div>
         </div>
-        <div class="field"><label for="loc">Location</label><input id="loc" type="text" value="Bangladesh" maxlength="60"></div>
+        <div class="field"><label for="loc" data-en="Location" data-bn="অবস্থান">Location</label><input id="loc" type="text" value="Bangladesh" maxlength="60"></div>
       </section>
 
       <section class="panel">
-        <h2>Distance travelled</h2>
+        <h2 data-en="Distance travelled" data-bn="ভ্রমণের দূরত্ব">Distance travelled</h2>
         <div class="modes" id="modes"></div>
-        <div class="totalbar"><span>Total distance</span><b id="totalOut">0 km</b></div>
-        <p class="hint">Up to 5 fields at a time. Tap <b>✎ Replace</b> on any field to swap it for your own name and icon — it keeps the colour of the field it replaces.</p>
+        <div class="totalbar"><span data-en="Total distance" data-bn="মোট দূরত্ব">Total distance</span><b id="totalOut">0 km</b></div>
+        <p class="hint" data-en="Up to 5 fields at a time. Tap Replace on any field to swap it for your own name and icon. It keeps the colour of the field it replaces." data-bn="একসঙ্গে সর্বোচ্চ ৫টি ফিল্ড ব্যবহার করুন। নিজের নাম ও আইকন দিতে Replace চাপুন। ফিল্ডটির রং একই থাকবে।">Up to 5 fields at a time. Tap Replace on any field to swap it for your own name and icon. It keeps the colour of the field it replaces.</p>
       </section>
 
       <section class="panel">
-        <h2>Header photo</h2>
+        <h2 data-en="Header photo" data-bn="হেডার ছবি">Header photo</h2>
         <div class="thumbs" id="thumbs"></div>
         <div class="sliders" id="sliders">
-          <div class="sl"><span>Zoom</span><input id="zoom" type="range" min="100" max="300" value="100"></div>
-          <div class="sl"><span>Left ↔ Right</span><input id="posx" type="range" min="0" max="100" value="50"></div>
-          <div class="sl"><span>Up ↕ Down</span><input id="posy" type="range" min="0" max="100" value="50"></div>
+          <div class="sl"><span data-en="Zoom" data-bn="জুম">Zoom</span><input id="zoom" type="range" min="100" max="300" value="100"></div>
+          <div class="sl"><span data-en="Left ↔ Right" data-bn="বাম ↔ ডান">Left ↔ Right</span><input id="posx" type="range" min="0" max="100" value="50"></div>
+          <div class="sl"><span data-en="Up ↕ Down" data-bn="উপরে ↕ নিচে">Up ↕ Down</span><input id="posy" type="range" min="0" max="100" value="50"></div>
         </div>
-        <p class="hint">Upload any photo from your phone or desktop — it's cropped automatically to the header ratio. Use the sliders to choose what stays in frame.</p>
+        <p class="hint" data-en="Upload a photo from your phone or desktop. It is cropped automatically to the header ratio. Use the sliders to adjust the frame." data-bn="মোবাইল বা কম্পিউটার থেকে ছবি আপলোড করুন। ছবিটি স্বয়ংক্রিয়ভাবে হেডারের অনুপাতে ক্রপ হবে। স্লাইডার দিয়ে ছবির অবস্থান ঠিক করুন।">Upload a photo from your phone or desktop. It is cropped automatically to the header ratio. Use the sliders to adjust the frame.</p>
         <div class="btns">
-          <button class="btn ghost" id="changeBtn" type="button">🔄 Change photo</button>
-          <button class="btn ghost" id="uploadBtn" type="button">📤 Upload photo</button>
+          <button class="btn ghost" id="changeBtn" type="button" data-en="🔄 Change photo" data-bn="🔄 ছবি পরিবর্তন">🔄 Change photo</button>
+          <button class="btn ghost" id="uploadBtn" type="button" data-en="📤 Upload photo" data-bn="📤 ছবি আপলোড">📤 Upload photo</button>
         </div>
         <input id="file" type="file" accept="image/*" hidden>
       </section>
 
-      <button class="btn link" id="resetBtn" type="button">↺ Reset to default data</button>
+      <button class="btn link" id="resetBtn" type="button" data-en="↺ Reset to default data" data-bn="↺ ডিফল্ট তথ্য ফিরিয়ে আনুন">↺ Reset to default data</button>
     </div>
 
     <!-- ============ PREVIEW ============ -->
@@ -173,7 +210,7 @@
       <div class="frame">
         <canvas id="story" width="1080" height="1920"></canvas>
       </div>
-      <button class="btn primary" id="dlBtn" type="button" style="width:100%;margin-top:14px;font-size:16px;padding:16px">⬇ Download PNG (1080 × 1920)</button>
+      <button class="btn primary" id="dlBtn" type="button" data-en="⬇ Download PNG (1080 × 1920)" data-bn="⬇ PNG ডাউনলোড (1080 × 1920)" style="width:100%;margin-top:14px;font-size:16px;padding:16px">⬇ Download PNG (1080 × 1920)</button>
     </aside>
   </div>
 </div>
@@ -726,7 +763,8 @@ function render(){
 
   /* title block */
   const days = Math.max(0, Math.round(parseFloat(state.days) || 0));
-  const line1 = `Last ${days} ${days === 1 ? 'Day' : 'Days'}`;
+  const bn = document.documentElement.lang === 'bn';
+  const line1 = bn ? `গত ${days} দিন` : `Last ${days} ${days === 1 ? 'Day' : 'Days'}`;
   const line2 = (state.title2 || '').trim() || 'Activity of Me';
   const loc = (state.loc || '').trim();
   c.save();
@@ -746,8 +784,9 @@ function render(){
   const CX = 48, CW = W - 96;
   const SY = 500, SH = 400;
   card(CX, SY, CW, SH, 38);
-  fitSize('Total Travel Distance', 600, 32, 278, 20);
-  c.fillStyle = MUTED; c.fillText('Total Travel Distance', 84, SY + 168);
+  const totalLabel = document.documentElement.lang === 'bn' ? 'মোট ভ্রমণ দূরত্ব' : 'Total Travel Distance';
+  fitSize(totalLabel, 600, 32, 278, 20);
+  c.fillStyle = MUTED; c.fillText(totalLabel, 84, SY + 168);
   const totalTxt = `${fmt(d.total)} km`;
   fitSize(totalTxt, 800, 92, 278, 34);
   c.fillStyle = INK; c.fillText(totalTxt, 84, SY + 268);
@@ -778,7 +817,8 @@ function render(){
   // legend: big text; long custom names are clipped with an ellipsis instead of shrinking everything
   c.textAlign = 'left';
   const LX = 680, LR = 1010;
-  const lab = k => state.meta[k].label;
+  const labelBn = {walk:'হেঁটে চলা',bike:'সাইকেল',transit:'গণপরিবহন',moto:'মোটরসাইকেল',taxi:'ট্যাক্সি'};
+  const lab = k => (document.documentElement.lang === 'bn' && !state.meta[k].custom) ? labelBn[k] : state.meta[k].label;
   let lfs = 30, avail = 0;
   for (; lfs >= 22; lfs--) {
     c.font = `700 ${lfs}px ${FONT}`; let nw = 0;
@@ -805,7 +845,8 @@ function render(){
     card(CX, y, CW, RH, 32);
     c.fillStyle = m.tint; rr(c, CX + 24, y + 16, 86, 86, 22); c.fill();
     drawIcon(c, mt.icon, CX + 67, y + 59, 58, m.icon);
-    fitSize(mt.label, 500, 30, 290, 18); c.fillStyle = MUTED; c.fillText(mt.label, CX + 138, y + 52);
+    const displayLabel = (document.documentElement.lang === 'bn' && !mt.custom) ? labelBn[k] : mt.label;
+    fitSize(displayLabel, 500, 30, 290, 18); c.fillStyle = MUTED; c.fillText(displayLabel, CX + 138, y + 52);
     const vt = `${fmt(d.v[k])} km`; fitSize(vt, 800, 46, 280, 20); c.fillStyle = INK; c.fillText(vt, CX + 138, y + 99);
     const bx = 470, bw = 350, bh = 26, by = y + (RH - bh) / 2;
     c.fillStyle = '#e8eef3'; rr(c, bx, by, bw, bh, bh / 2); c.fill();
@@ -974,6 +1015,7 @@ $('dlBtn').addEventListener('click', () => {
 
 /* first paint, then repaint once web fonts are ready */
 render(); updateUI();
+window.__activityRender = function(){ render(); updateUI(); };
 const loads = ['500', '600', '700', '800'].map(w => document.fonts && document.fonts.load(`${w} 40px "Plus Jakarta Sans"`).catch(() => {}));
 Promise.all(loads).then(() => { render(); updateUI(); });
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { render(); });
@@ -981,5 +1023,42 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { re
 })();
 </script>
 <script src="../app.js"></script>
+<script>
+/* Activity Tracker page-only translations for dynamic controls and canvas labels. */
+(function(){
+  const bn = {
+    'Walking':'হেঁটে চলা','Cycling':'সাইকেল','Public transport':'গণপরিবহন','Motorcycling':'মোটরসাইকেল','Taxi':'ট্যাক্সি',
+    'Bus':'বাস','Train':'ট্রেন','Metro':'মেট্রো','Swimming':'সাঁতার','Field name':'ফিল্ডের নাম',
+    'Type anything, e.g. Train':'যেকোনো নাম লিখুন, যেমন ট্রেন','Choose an icon':'আইকন বেছে নিন',
+    '↺ Restore original':'↺ আগেরটি ফিরিয়ে আনুন','Done':'সম্পন্ন','✎ Replace':'✎ পরিবর্তন',
+    'Upload':'আপলোড','Total Travel Distance':'মোট ভ্রমণ দূরত্ব','Last':'গত','Day':'দিন','Days':'দিন'
+  };
+  const en = {
+    'হেঁটে চলা':'Walking','সাইকেল':'Cycling','গণপরিবহন':'Public transport','মোটরসাইকেল':'Motorcycling','ট্যাক্সি':'Taxi',
+    'বাস':'Bus','ট্রেন':'Train','মেট্রো':'Metro','সাঁতার':'Swimming','ফিল্ডের নাম':'Field name',
+    'যেকোনো নাম লিখুন, যেমন ট্রেন':'Type anything, e.g. Train','আইকন বেছে নিন':'Choose an icon',
+    '↺ আগেরটি ফিরিয়ে আনুন':'↺ Restore original','সম্পন্ন':'Done','✎ পরিবর্তন':'✎ Replace','আপলোড':'Upload',
+    'মোট ভ্রমণ দূরত্ব':'Total Travel Distance','গত':'Last'
+  };
+  function lang(){return document.documentElement.lang==='bn'?'bn':'en'}
+  function translateDynamic(){
+    const dict=lang()==='bn'?bn:en;
+    document.querySelectorAll('.nmt').forEach(el=>{const raw=el.dataset.original||el.textContent.trim();if(!el.dataset.original)el.dataset.original=raw;el.textContent=(lang()==='bn'?(bn[raw]||raw):(en[raw]||raw));});
+    document.querySelectorAll('.rep').forEach(el=>el.textContent=lang()==='bn'?'✎ পরিবর্তন':'✎ Replace');
+    document.querySelectorAll('.editor label').forEach(el=>{const raw=el.dataset.original||el.textContent.trim();if(!el.dataset.original)el.dataset.original=raw;el.textContent=lang()==='bn'?(bn[raw]||raw):(en[raw]||raw)});
+    document.querySelectorAll('.ednm').forEach(el=>el.placeholder=lang()==='bn'?'যেকোনো নাম লিখুন, যেমন ট্রেন':'Type anything, e.g. Train');
+    document.querySelectorAll('.rst').forEach(el=>el.textContent=lang()==='bn'?'↺ আগেরটি ফিরিয়ে আনুন':'↺ Restore original');
+    document.querySelectorAll('.done').forEach(el=>el.textContent=lang()==='bn'?'সম্পন্ন':'Done');
+    document.querySelectorAll('.thumb.up').forEach(el=>{const d=el.querySelector('div');if(d)d.lastChild.textContent=lang()==='bn'?'আপলোড':'Upload'});
+    if(window.__activityRender) window.__activityRender();
+  }
+  const langButton=document.getElementById('lang');
+  if(langButton) langButton.addEventListener('click',()=>setTimeout(translateDynamic,0));
+  const themeButton=document.getElementById('theme');
+  if(themeButton) themeButton.addEventListener('click',()=>setTimeout(()=>document.documentElement.dataset.theme=document.documentElement.dataset.theme||'light',0));
+  document.addEventListener('click',e=>{if(e.target.closest('#lang'))setTimeout(translateDynamic,0)});
+  setTimeout(translateDynamic,0);
+})();
+</script>
 </body>
 </html>
