@@ -1,9 +1,9 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,53 +13,94 @@
   <link rel="icon" type="image/jpeg" href="images/profile-logo.jpg">
 
   <title>Tools | Muinuddin Gaus</title>
+
+  <style>
+    /* Balanced spacing for the Tools page */
+    .tools-page .page-h:first-child {
+      margin-bottom: 28px;
+    }
+
+    .tools-page .tools-section {
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .tools-page .tools-section + .tools-section {
+      margin-top: 36px;
+    }
+
+    .tools-page .page-h h1 {
+      margin-bottom: 12px;
+    }
+
+    .tools-page .page-h h2 {
+      margin-bottom: 8px;
+    }
+
+    .tools-page .page-h .sub {
+      margin-top: 0;
+    }
+
+    .tools-page .grid {
+      margin-top: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .tools-page .page-h:first-child {
+        margin-bottom: 24px;
+      }
+
+      .tools-page .tools-section + .tools-section {
+        margin-top: 28px;
+      }
+
+      .tools-page .grid {
+        margin-top: 18px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <main class="wrap">
+  <main class="wrap tools-page">
 
     <!-- Page heading -->
     <div class="page-h">
-      <h1
-        data-en="Tools I built"
-        data-bn="আমার তৈরি টুলস">
+      <h1 data-en="Tools I built" data-bn="আমার তৈরি টুলস">
         Tools I built
       </h1>
 
-      <p
-        class="sub"
-        data-en="Small tools and browser extensions I made to solve practical problems. Explore published tools or try the tools that are being prepared for publication."
-        data-bn="বাস্তব কাজের সমস্যা সমাধানের জন্য তৈরি ছোট টুল ও ব্রাউজার এক্সটেনশন। প্রকাশিত টুল ব্যবহার করুন অথবা প্রকাশের প্রস্তুতিতে থাকা টুলগুলো দেখুন।">
+      <p class="sub"
+         data-en="Small tools and browser extensions I made to solve practical problems. Explore published tools or try the tools that are being prepared for publication."
+         data-bn="বাস্তব কাজের সমস্যা সমাধানের জন্য তৈরি ছোট টুল ও ব্রাউজার এক্সটেনশন। প্রকাশিত টুল ব্যবহার করুন অথবা প্রকাশের প্রস্তুতিতে থাকা টুলগুলো দেখুন।">
         Small tools and browser extensions I made to solve practical problems. Explore published tools or try the tools that are being prepared for publication.
       </p>
     </div>
 
-    <!-- Published tools -->
+    <!-- Published -->
     <section class="tools-section" aria-labelledby="published-heading">
       <div class="page-h">
-        <h2
-          id="published-heading"
-          data-en="Published"
-          data-bn="প্রকাশিত">
+        <h2 id="published-heading"
+            data-en="Published"
+            data-bn="প্রকাশিত">
           Published
         </h2>
 
-        <p
-          class="sub"
-          data-en="Available to use."
-          data-bn="ব্যবহারের জন্য প্রস্তুত।">
+        <p class="sub"
+           data-en="Available to use."
+           data-bn="ব্যবহারের জন্য প্রস্তুত।">
           Available to use.
         </p>
       </div>
 
       <div class="grid">
 
-        <!-- Activity Tracker -->
         <a class="icon-card" href="tools/activity-tracker.html">
           <span class="context-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-              aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
               <circle cx="12" cy="12" r="9"></circle>
               <path d="M12 7v5l3 2"></path>
               <path d="M5 4 3 6M19 4l2 2"></path>
@@ -68,9 +109,8 @@
 
           <div>
             <h3>Activity Tracker</h3>
-            <p
-              data-en="Track your daily activity, travel distance and transport modes with automatically updated totals and charts."
-              data-bn="স্বয়ংক্রিয়ভাবে আপডেট হওয়া মোট হিসাব ও চার্টের মাধ্যমে দৈনিক কার্যক্রম, ভ্রমণের দূরত্ব এবং যাতায়াতের মাধ্যম ট্র্যাক করুন।">
+            <p data-en="Track your daily activity, travel distance and transport modes with automatically updated totals and charts."
+               data-bn="স্বয়ংক্রিয়ভাবে আপডেট হওয়া মোট হিসাব ও চার্টের মাধ্যমে দৈনিক কার্যক্রম, ভ্রমণের দূরত্ব এবং যাতায়াতের মাধ্যম ট্র্যাক করুন।">
               Track your daily activity, travel distance and transport modes with automatically updated totals and charts.
             </p>
           </div>
@@ -79,20 +119,18 @@
       </div>
     </section>
 
-    <!-- Ready to publish tools -->
+    <!-- Ready to Publish -->
     <section class="tools-section" aria-labelledby="ready-heading">
       <div class="page-h">
-        <h2
-          id="ready-heading"
-          data-en="Ready to Publish"
-          data-bn="প্রকাশের জন্য প্রস্তুত">
+        <h2 id="ready-heading"
+            data-en="Ready to Publish"
+            data-bn="প্রকাশের জন্য প্রস্তুত">
           Ready to Publish
         </h2>
 
-        <p
-          class="sub"
-          data-en="Tools that are being prepared for publication."
-          data-bn="প্রকাশের প্রস্তুতিতে থাকা টুলগুলো।">
+        <p class="sub"
+           data-en="Tools that are being prepared for publication."
+           data-bn="প্রকাশের প্রস্তুতিতে থাকা টুলগুলো।">
           Tools that are being prepared for publication.
         </p>
       </div>
@@ -102,9 +140,10 @@
         <!-- Robi Number Finder -->
         <a class="icon-card" href="tools/robi-number.html">
           <span class="context-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-              aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
               <rect x="6" y="3" width="12" height="18" rx="2"></rect>
               <path d="M9 6h6M9 18h6"></path>
               <path d="M10 9h4v5h-4z"></path>
@@ -113,9 +152,8 @@
 
           <div>
             <h3>Robi Number Finder</h3>
-            <p
-              data-en="A practical tool for working with Robi number patterns and lookup tasks."
-              data-bn="Robi নম্বরের pattern ও lookup-সংক্রান্ত কাজের জন্য একটি ব্যবহারিক টুল।">
+            <p data-en="A practical tool for working with Robi number patterns and lookup tasks."
+               data-bn="Robi নম্বরের pattern ও lookup-সংক্রান্ত কাজের জন্য একটি ব্যবহারিক টুল।">
               A practical tool for working with Robi number patterns and lookup tasks.
             </p>
           </div>
@@ -124,9 +162,10 @@
         <!-- ChatGPT Patch Image Enhancer -->
         <a class="icon-card" href="tools/batch-image.html">
           <span class="context-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-              aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
               <rect x="3" y="4" width="13" height="13" rx="2"></rect>
               <path d="M7 8h5M7 11h5"></path>
               <path d="m17 8 4 4-4 4"></path>
@@ -135,9 +174,8 @@
 
           <div>
             <h3>ChatGPT Patch Image Enhancer</h3>
-            <p
-              data-en="Process multiple images with one prompt, one ChatGPT chat at a time."
-              data-bn="একটি prompt দিয়ে একাধিক ছবি একে একে ChatGPT-তে process করার টুল।">
+            <p data-en="Process multiple images with one prompt, one ChatGPT chat at a time."
+               data-bn="একটি prompt দিয়ে একাধিক ছবি একে একে ChatGPT-তে process করার টুল।">
               Process multiple images with one prompt, one ChatGPT chat at a time.
             </p>
           </div>
