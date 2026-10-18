@@ -866,7 +866,7 @@ function render(){
   c.fillStyle = INK;
   for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (qr.matrix[y][x]) c.fillRect(qx + x * cell, qy + y * cell, cell, cell);
   const tl1 = 'Create your own activity records, scan the QR';
-  const tl2 = 'or visit https://muinuddingaus.vercel.app/ to generate.';
+  const tl2 = 'or visit https://cutt.ly/M-Gaus_Travel-TR  to generate.';
   const tw = qx - (CX + 40) - 22;
   let fs = 32; c.font = `600 ${fs}px ${FONT}`;
   while ((c.measureText(tl1).width > tw || c.measureText(tl2).width > tw) && fs > 14) { fs -= 1; c.font = `600 ${fs}px ${FONT}`; }
