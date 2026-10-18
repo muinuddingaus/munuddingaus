@@ -176,7 +176,6 @@
           <div><label for="title1" data-en="Title (1st line)" data-bn="শিরোনাম (প্রথম লাইন)">Title (1st line)</label><input id="title1" type="text" value="Last 0 Days" maxlength="32"></div>
           <div><label for="title2" data-en="Title (2nd line)" data-bn="শিরোনাম (দ্বিতীয় লাইন)">Title (2nd line)</label><input id="title2" type="text" value="Activity of Me" maxlength="32"></div>
         </div>
-        <div class="field"><label for="days" data-en="Days (optional counter)" data-bn="দিন (ঐচ্ছিক হিসাব)">Days (optional counter)</label><input id="days" type="number" min="0" step="1" value="0" inputmode="numeric"></div>
         <div class="field"><label for="loc" data-en="Location" data-bn="অবস্থান">Location</label><input id="loc" type="text" value="Bangladesh" maxlength="60"></div>
       </section>
 
@@ -872,10 +871,17 @@ function render(){
   /* footer: text + QR */
   const FY = RY + 5 * RH + 4 * RG + 18, FH = 206;
   card(CX, FY, CW, FH, 34);
-  const qr = QR.make(QR_URL), n = qr.size, cell = 6, qsz = n * cell;
+  const qr = QR.make(QR_URL), n = qr.size, cell = 5, qsz = n * cell;
   const qx = CX + CW - 28 - qsz, qy = FY + (FH - qsz) / 2;
   c.fillStyle = INK;
-  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (qr.matrix[y][x]) c.fillRect(qx + x * cell, qy + y * cell, cell, cell);
+  for (let y = 0; y < n; y++) {
+    for (let x = 0; x < n; x++) {
+      if (!qr.matrix[y][x]) continue;
+      const dot = cell * 0.88, inset = (cell - dot) / 2;
+      rr(c, qx + x * cell + inset, qy + y * cell + inset, dot, dot, dot * 0.32);
+      c.fill();
+    }
+  }
   const tl1 = 'Create your own activity records, scan the QR';
   const tl2 = 'or visit https://cutt.ly/Gaus_TR to generate.';
   const tw = qx - (CX + 40) - 22;
@@ -946,7 +952,6 @@ function refreshRow(k){
   if (document.activeElement !== R.nameIn) R.nameIn.value = mt.label;
   R.btns.forEach(b => b.classList.toggle('sel', b.dataset.icon === mt.icon));
 }
-$('days').addEventListener('input', e => { state.days = e.target.value; schedule(); });
 $('title1').addEventListener('input', e => { state.title1 = e.target.value; schedule(); });
 $('title2').addEventListener('input', e => { state.title2 = e.target.value; schedule(); });
 $('loc').addEventListener('input', e => { state.loc = e.target.value; schedule(); });
