@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Activity Tracker | Muinuddin Gaus</title>
 <link rel="stylesheet" href="../style.css">
-<link rel="icon" type="image/jpeg" href="../images/profile-logo.jpg">
+<link rel="icon" type="image/jpeg" href="/images/profile-logo.jpg">
+<link rel="shortcut icon" type="image/jpeg" href="/images/profile-logo.jpg">
+<link rel="apple-touch-icon" href="/images/profile-logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Hind+Siliguri:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -51,6 +53,13 @@
   .mode .nm small{display:block;color:var(--muted);font-weight:600;font-size:12px;margin-top:2px}
   .mode .unit{position:relative}
   .mode .unit input{padding-right:38px;text-align:right}
+  .mode .unit{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+  .mode .unit .entry-stack{display:grid;gap:5px;flex:1;min-width:0}
+  .mode .unit .entry-stack input{min-width:0;padding:9px 28px 9px 8px;font-size:14px}
+  .mode .unit .entry-stack input:first-child{padding-right:28px}
+  .mode .unit .add-entry{flex:0 0 28px;width:28px;height:28px;border:1px solid var(--line);border-radius:9px;background:var(--soft);color:var(--teal);font-size:20px;font-weight:700;line-height:1;cursor:pointer;display:grid;place-items:center}
+  .mode .unit .add-entry:hover{background:#dff3fb;border-color:var(--teal)}
+  .mode .unit i{right:39px}
   .mode .unit i{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-style:normal;font-size:13px;color:var(--muted);font-weight:600;pointer-events:none}
   .totalbar{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding:12px 14px;background:var(--soft);border-radius:12px;font-weight:700}
   .totalbar b{font-size:20px;color:var(--teal)}
@@ -87,6 +96,8 @@
   .preview{position:sticky;top:14px}
   .frame{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 18px 44px rgba(18,60,90,.22);background:#f1f7fb;line-height:0}
   .frame canvas{width:100%;height:auto;display:block}
+  .story-footer-link{position:absolute;left:3.7%;bottom:7.1%;width:58%;height:3.2%;display:block;z-index:2;background:transparent}
+  .story-footer-link:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:4px}
   .guides{position:absolute;inset:0;pointer-events:none;display:none}
   .guides.on{display:block}
   .guides i{position:absolute;left:0;right:0;border-top:2px dashed rgba(220,40,80,.75)}
@@ -123,14 +134,19 @@
     gap:12px;
   }
   body > header .brand{color:var(--ink) !important;gap:10px}
-  body > header nav{background:var(--sand, #ece5d8) !important;border:1px solid var(--line);}
-  body > header nav a{color:var(--muted, #5b6b7c) !important}
-  body > header nav a.on{background:var(--card) !important;color:var(--ink) !important}
+  body > header nav{background:#e5f0f7 !important;border:1px solid #d5e4ee !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.65);}
+  body > header nav a{color:#52697d !important;transition:background .18s ease,color .18s ease;}
+  body > header nav a:hover{background:rgba(255,255,255,.65) !important;color:#0a7e9c !important}
+  body > header nav a.on{background:#ffffff !important;color:#0b1b2b !important;box-shadow:0 2px 7px rgba(24,70,100,.12);}
   body > header .pill, body > header .icon-btn{
     border:1px solid var(--line) !important;background:var(--card) !important;
     color:var(--ink) !important;box-shadow:0 2px 8px rgba(24,70,100,.05);
   }
   body > header .pill:hover, body > header .icon-btn:hover{border-color:var(--teal) !important}
+  html[data-theme="dark"] body > header nav{background:#1b303d !important;border-color:#30434f !important;box-shadow:none}
+  html[data-theme="dark"] body > header nav a{color:#b7c9d5 !important}
+  html[data-theme="dark"] body > header nav a:hover{background:#253e4b !important;color:#70d1e5 !important}
+  html[data-theme="dark"] body > header nav a.on{background:#294653 !important;color:#f0f7fa !important;box-shadow:0 2px 7px rgba(0,0,0,.2)}
   html[data-theme="dark"]{
     --ink:#e8f0f4; --muted:#aabac5; --line:#30434f; --card:#172631; --soft:#1b303d; --field:#13232d;
     --page-bg-color:#101c24;
@@ -196,7 +212,7 @@
         <h2 data-en="Distance travelled" data-bn="ভ্রমণের দূরত্ব">Distance travelled</h2>
         <div class="modes" id="modes"></div>
         <div class="totalbar"><span data-en="Total distance" data-bn="মোট দূরত্ব">Total distance</span><b id="totalOut">0 km</b></div>
-        <p class="hint" data-en="Up to 5 fields at a time. Tap Replace on any field to swap it for your own name and icon. It keeps the colour of the field it replaces." data-bn="একসঙ্গে সর্বোচ্চ ৫টি ফিল্ড ব্যবহার করুন। নিজের নাম ও আইকন দিতে Replace চাপুন। ফিল্ডটির রং একই থাকবে।">Up to 5 fields at a time. Tap Replace on any field to swap it for your own name and icon. It keeps the colour of the field it replaces.</p>
+        <p class="hint" data-en="Type additions like 5+2+3 in any field, or tap + to add separate entries. Totals update automatically. Tap Replace to change a field name and icon." data-bn="যেকোনো ঘরে ৫+২+৩ এভাবে যোগ লিখুন, অথবা + চাপ দিয়ে আলাদা এন্ট্রি যোগ করুন। মোট হিসাব স্বয়ংক্রিয়ভাবে আপডেট হবে। নাম ও আইকন বদলাতে Replace চাপুন।">Type additions like 5+2+3 in any field, or tap + to add separate entries. Totals update automatically. Tap Replace to change a field name and icon.</p>
       </section>
 
       <section class="panel">
@@ -222,9 +238,10 @@
     <aside class="preview">
       <div class="frame">
         <canvas id="story" width="1080" height="1920"></canvas>
+        <a class="story-footer-link" href="https://cutt.ly/Gaus_TR" target="_blank" rel="noopener noreferrer" aria-label="Visit Gaus activity tracker link"></a>
       </div>
       <button class="btn primary" id="dlBtn" type="button" data-en="Download PNG (1080 × 1920)" data-bn="PNG ডাউনলোড (1080 × 1920)" style="width:100%;margin-top:14px;font-size:16px;padding:16px">Download PNG (1080 × 1920)</button>
-      <p style="text-align:center;margin:10px 0 0;font-size:14px;line-height:1.5;color:var(--ink)"><span data-en="Open the tracker: " data-bn="ট্র্যাকার খুলুন: ">Open the tracker: </span><a href="https://muinuddingaus.vercel.app/tools/activity-tracker" target="_blank" rel="noopener noreferrer" style="color:var(--teal);font-weight:700">https://muinuddingaus.vercel.app/tools/activity-tracker</a></p>
+      
     </aside>
   </div>
 </div>
@@ -725,6 +742,12 @@ function drawIcon(c,key,cx,cy,s,col){
 /* ---------- data helpers ---------- */
 const nf = new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 });
 const fmt = n => nf.format(Math.round(n * 10) / 10);
+function parseAddition(value){
+  const raw = String(value ?? '').trim().replace(/\s+/g, '');
+  if (!raw) return 0;
+  if (!/^[+]?\d*\.?\d+(?:\+\d*\.?\d+)*$/.test(raw)) return 0;
+  return raw.split('+').reduce((sum, part) => sum + (Number(part) || 0), 0);
+}
 function calc(){
   const v = {}; let total = 0;
   Object.keys(MODES).forEach(k => { const n = Math.max(0, parseFloat(state.vals[k]) || 0); v[k] = n; total += n; });
@@ -887,11 +910,11 @@ function render(){
   card(CX, FY, CW, FH, 34);
   const qr = QR.make(QR_URL), n = qr.size, cell = 5, qsz = n * cell;
   const qx = CX + CW - 28 - qsz, qy = FY + (FH - qsz) / 2;
-  c.fillStyle = '#071b2b'; // Deep navy QR modules for stronger contrast
+  c.fillStyle = '#000814'; // Near-black navy QR modules for maximum contrast
   for (let y = 0; y < n; y++) {
     for (let x = 0; x < n; x++) {
       if (!qr.matrix[y][x]) continue;
-      const dot = cell * 0.88, inset = (cell - dot) / 2;
+      const dot = cell * 0.94, inset = (cell - dot) / 2;
       rr(c, qx + x * cell + inset, qy + y * cell + inset, dot, dot, dot * 0.32);
       c.fill();
     }
@@ -902,13 +925,12 @@ function render(){
   let fs = 32; c.font = `600 ${fs}px ${FONT}`;
   while ((c.measureText(tl1).width > tw || c.measureText(tl2).width > tw) && fs > 14) { fs -= 1; c.font = `600 ${fs}px ${FONT}`; }
   c.fillStyle = INK; c.fillText(tl1, CX + 40, FY + FH / 2 - 8);
-  c.fillStyle = INK; c.fillText('or visit', CX + 40, FY + FH / 2 + fs + 6);
-  const prefix = 'or visit '; const linkText = 'https://cutt.ly/Gaus_TR';
+  const prefix = 'or visit  '; const linkText = 'https://cutt.ly/Gaus_TR';
   c.fillStyle = INK; c.fillText(prefix, CX + 40, FY + FH / 2 + fs + 6);
   const linkX = CX + 40 + c.measureText(prefix).width;
   const linkY = FY + FH / 2 + fs + 6;
   c.fillStyle = TEAL; c.fillText(linkText, linkX, linkY);
-  c.fillStyle = INK; c.fillText(' to generate.', linkX + c.measureText(linkText).width, linkY);
+  c.fillStyle = INK; c.fillText('  to generate.', linkX + c.measureText(linkText).width, linkY);
 }
 
 /* ---------- UI wiring ---------- */
@@ -925,7 +947,7 @@ ROW_ORDER.forEach(k => {
     <div class="mode">
       <div class="ic" style="background:${m.tint}"><canvas width="56" height="56"></canvas></div>
       <div class="nm"><span class="nmt"></span><small><span class="pc">0.0%</span><button type="button" class="mini rep">✎ Replace</button></small></div>
-      <div class="unit"><input type="number" min="0" step="0.1" inputmode="decimal" id="v-${k}" value="${state.vals[k]}"><i>km</i></div>
+      <div class="unit"><div class="entry-stack"><input type="text" inputmode="decimal" autocomplete="off" aria-label="${m.label} distance entries" id="v-${k}" value="${state.vals[k]}" placeholder="0" title="Enter a number or an addition such as 5+2+3"></div><button type="button" class="add-entry" title="Add another entry" aria-label="Add another ${m.label} entry">+</button><i>km</i></div>
     </div>
     <div class="editor">
       <label>Field name</label>
@@ -938,6 +960,7 @@ ROW_ORDER.forEach(k => {
   const R = rows[k] = {
     wrap, ic: wrap.querySelector('.ic canvas'), nm: wrap.querySelector('.nmt'), ed: wrap.querySelector('.editor'),
     nameIn: wrap.querySelector('.ednm'), grid: wrap.querySelector('.icons'), btns: [], num: wrap.querySelector('.unit input'),
+    stack: wrap.querySelector('.entry-stack'), add: wrap.querySelector('.add-entry'),
   };
   pctEls[k] = wrap.querySelector('.pc');
   ICON_LIST.forEach(([key, nice]) => {
@@ -951,7 +974,31 @@ ROW_ORDER.forEach(k => {
       refreshRow(k); schedule();
     });
   });
-  R.num.addEventListener('input', e => { state.vals[k] = e.target.value; schedule(); });
+  function updateEntries(){
+    const inputs = [...R.stack.querySelectorAll('input')];
+    const total = inputs.reduce((sum, input) => sum + parseAddition(input.value), 0);
+    state.vals[k] = total;
+    schedule();
+  }
+  R.num.addEventListener('input', updateEntries);
+  R.num.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); updateEntries(); }
+  });
+  R.num.addEventListener('blur', e => {
+    const parsed = parseAddition(e.target.value);
+    if (e.target.value.trim() && Number.isFinite(parsed)) e.target.value = fmt(parsed);
+    updateEntries();
+  });
+  R.add.addEventListener('click', () => {
+    const input = document.createElement('input');
+    input.type = 'text'; input.inputMode = 'decimal'; input.autocomplete = 'off'; input.placeholder = '0';
+    input.setAttribute('aria-label', `${state.meta[k].label} additional distance entry`);
+    input.title = 'Enter a number or an addition such as 5+2+3';
+    input.addEventListener('input', updateEntries);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); updateEntries(); } });
+    input.addEventListener('blur', e => { const parsed = parseAddition(e.target.value); if (e.target.value.trim() && Number.isFinite(parsed)) e.target.value = fmt(parsed); updateEntries(); });
+    R.stack.appendChild(input); input.focus();
+  });
   R.nameIn.addEventListener('input', e => {
     const mt = state.meta[k], v = e.target.value;
     if (v.trim()) { mt.label = v; mt.custom = true; } else { mt.custom = false; mt.label = NAME_FOR[mt.icon]; }
@@ -1025,7 +1072,7 @@ $('posy').addEventListener('input', e => { state.py = +e.target.value; schedule(
 $('resetBtn').addEventListener('click', () => {
   state.days = SAMPLE.days; state.title1 = SAMPLE.title1; state.title2 = SAMPLE.title2; state.loc = SAMPLE.loc; state.vals = Object.assign({}, SAMPLE.vals);
   $('days').value = state.days; $('title1').value = state.title1; $('title2').value = state.title2; $('loc').value = state.loc;
-  ROW_ORDER.forEach(k => { $('v-' + k).value = state.vals[k]; state.meta[k] = defaultMeta(k); refreshRow(k); });
+  ROW_ORDER.forEach(k => { const stack = rows[k].stack; stack.innerHTML = ''; const input = document.createElement('input'); input.type = 'text'; input.inputMode = 'decimal'; input.autocomplete = 'off'; input.id = 'v-' + k; input.value = state.vals[k]; input.placeholder = '0'; input.title = 'Enter a number or an addition such as 5+2+3'; input.setAttribute('aria-label', MODES[k].label + ' distance entries'); input.addEventListener('input', () => { state.vals[k] = parseAddition(input.value); schedule(); }); input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } }); input.addEventListener('blur', () => { const n = parseAddition(input.value); if (input.value.trim()) input.value = fmt(n); state.vals[k] = n; schedule(); }); stack.appendChild(input); rows[k].num = input; state.meta[k] = defaultMeta(k); refreshRow(k); });
   schedule();
 });
 
