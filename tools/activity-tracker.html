@@ -53,13 +53,6 @@
   .mode .nm small{display:block;color:var(--muted);font-weight:600;font-size:12px;margin-top:2px}
   .mode .unit{position:relative}
   .mode .unit input{padding-right:38px;text-align:right}
-  .mode .unit{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
-  .mode .unit .entry-stack{display:grid;gap:5px;flex:1;min-width:0}
-  .mode .unit .entry-stack input{min-width:0;padding:9px 28px 9px 8px;font-size:14px}
-  .mode .unit .entry-stack input:first-child{padding-right:28px}
-  .mode .unit .add-entry{flex:0 0 28px;width:28px;height:28px;border:1px solid var(--line);border-radius:9px;background:var(--soft);color:var(--teal);font-size:20px;font-weight:700;line-height:1;cursor:pointer;display:grid;place-items:center}
-  .mode .unit .add-entry:hover{background:#dff3fb;border-color:var(--teal)}
-  .mode .unit i{right:39px}
   .mode .unit i{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-style:normal;font-size:13px;color:var(--muted);font-weight:600;pointer-events:none}
   .totalbar{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding:12px 14px;background:var(--soft);border-radius:12px;font-weight:700}
   .totalbar b{font-size:20px;color:var(--teal)}
@@ -177,7 +170,7 @@
 
   /* Mobile-only More menu for the Activity Tracker header. */
   #activityMoreWrap{display:none;position:relative;flex:0 0 auto}
-  #activityMoreBtn{font:inherit;font-weight:600;cursor:pointer;border-radius:999px;min-height:38px;padding:8px 13px;white-space:nowrap}
+  #activityMoreBtn{font:inherit;font-size:0.92em;font-weight:600;cursor:pointer;border-radius:999px;min-height:38px;padding:8px 13px;white-space:nowrap}
   #activityMoreMenu{display:none;position:absolute;z-index:9999;top:calc(100% + 8px);left:0;min-width:190px;padding:7px;border:1px solid var(--line,#ded8cc);border-radius:16px;background:var(--card,#fff);box-shadow:0 12px 30px rgba(10,30,45,.16)}
   #activityMoreMenu.open{display:grid;gap:3px}
   #activityMoreMenu a{display:block;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--ink,#17251f);font-weight:600}
@@ -212,7 +205,7 @@
         <h2 data-en="Distance travelled" data-bn="ভ্রমণের দূরত্ব">Distance travelled</h2>
         <div class="modes" id="modes"></div>
         <div class="totalbar"><span data-en="Total distance" data-bn="মোট দূরত্ব">Total distance</span><b id="totalOut">0 km</b></div>
-        <p class="hint" data-en="Type additions like 5+2+3 in any field, or tap + to add separate entries. Totals update automatically. Tap Replace to change a field name and icon." data-bn="যেকোনো ঘরে ৫+২+৩ এভাবে যোগ লিখুন, অথবা + চাপ দিয়ে আলাদা এন্ট্রি যোগ করুন। মোট হিসাব স্বয়ংক্রিয়ভাবে আপডেট হবে। নাম ও আইকন বদলাতে Replace চাপুন।">Type additions like 5+2+3 in any field, or tap + to add separate entries. Totals update automatically. Tap Replace to change a field name and icon.</p>
+        <p class="hint" data-en="Type additions like 5+2+3 directly into any field. The total is calculated automatically when you finish typing or leave the field. Tap Replace to change a field name and icon." data-bn="যেকোনো ঘরে সরাসরি ৫+২+৩ এভাবে যোগ লিখুন। লেখা শেষ করলে বা ঘরের বাইরে ক্লিক করলে মোট হিসাব হবে। নাম ও আইকন বদলাতে Replace চাপুন।">Type additions like 5+2+3 directly into any field. The total is calculated automatically when you finish typing or leave the field. Tap Replace to change a field name and icon.</p>
       </section>
 
       <section class="panel">
@@ -947,7 +940,7 @@ ROW_ORDER.forEach(k => {
     <div class="mode">
       <div class="ic" style="background:${m.tint}"><canvas width="56" height="56"></canvas></div>
       <div class="nm"><span class="nmt"></span><small><span class="pc">0.0%</span><button type="button" class="mini rep">✎ Replace</button></small></div>
-      <div class="unit"><div class="entry-stack"><input type="text" inputmode="decimal" autocomplete="off" aria-label="${m.label} distance entries" id="v-${k}" value="${state.vals[k]}" placeholder="0" title="Enter a number or an addition such as 5+2+3"></div><button type="button" class="add-entry" title="Add another entry" aria-label="Add another ${m.label} entry">+</button><i>km</i></div>
+      <div class="unit"><input type="text" inputmode="decimal" autocomplete="off" aria-label="${m.label} distance" id="v-${k}" value="${state.vals[k]}" placeholder="0" title="Enter a number or an addition such as 5+2+3"><i>km</i></div>
     </div>
     <div class="editor">
       <label>Field name</label>
@@ -960,7 +953,7 @@ ROW_ORDER.forEach(k => {
   const R = rows[k] = {
     wrap, ic: wrap.querySelector('.ic canvas'), nm: wrap.querySelector('.nmt'), ed: wrap.querySelector('.editor'),
     nameIn: wrap.querySelector('.ednm'), grid: wrap.querySelector('.icons'), btns: [], num: wrap.querySelector('.unit input'),
-    stack: wrap.querySelector('.entry-stack'), add: wrap.querySelector('.add-entry'),
+    
   };
   pctEls[k] = wrap.querySelector('.pc');
   ICON_LIST.forEach(([key, nice]) => {
@@ -975,9 +968,7 @@ ROW_ORDER.forEach(k => {
     });
   });
   function updateEntries(){
-    const inputs = [...R.stack.querySelectorAll('input')];
-    const total = inputs.reduce((sum, input) => sum + parseAddition(input.value), 0);
-    state.vals[k] = total;
+    state.vals[k] = parseAddition(R.num.value);
     schedule();
   }
   R.num.addEventListener('input', updateEntries);
@@ -985,19 +976,12 @@ ROW_ORDER.forEach(k => {
     if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); updateEntries(); }
   });
   R.num.addEventListener('blur', e => {
-    const parsed = parseAddition(e.target.value);
-    if (e.target.value.trim() && Number.isFinite(parsed)) e.target.value = fmt(parsed);
-    updateEntries();
-  });
-  R.add.addEventListener('click', () => {
-    const input = document.createElement('input');
-    input.type = 'text'; input.inputMode = 'decimal'; input.autocomplete = 'off'; input.placeholder = '0';
-    input.setAttribute('aria-label', `${state.meta[k].label} additional distance entry`);
-    input.title = 'Enter a number or an addition such as 5+2+3';
-    input.addEventListener('input', updateEntries);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); updateEntries(); } });
-    input.addEventListener('blur', e => { const parsed = parseAddition(e.target.value); if (e.target.value.trim() && Number.isFinite(parsed)) e.target.value = fmt(parsed); updateEntries(); });
-    R.stack.appendChild(input); input.focus();
+    const raw = e.target.value.trim();
+    const parsed = parseAddition(raw);
+    if (raw) e.target.value = fmt(parsed);
+    else e.target.value = '0';
+    state.vals[k] = parsed;
+    schedule();
   });
   R.nameIn.addEventListener('input', e => {
     const mt = state.meta[k], v = e.target.value;
@@ -1072,7 +1056,7 @@ $('posy').addEventListener('input', e => { state.py = +e.target.value; schedule(
 $('resetBtn').addEventListener('click', () => {
   state.days = SAMPLE.days; state.title1 = SAMPLE.title1; state.title2 = SAMPLE.title2; state.loc = SAMPLE.loc; state.vals = Object.assign({}, SAMPLE.vals);
   $('days').value = state.days; $('title1').value = state.title1; $('title2').value = state.title2; $('loc').value = state.loc;
-  ROW_ORDER.forEach(k => { const stack = rows[k].stack; stack.innerHTML = ''; const input = document.createElement('input'); input.type = 'text'; input.inputMode = 'decimal'; input.autocomplete = 'off'; input.id = 'v-' + k; input.value = state.vals[k]; input.placeholder = '0'; input.title = 'Enter a number or an addition such as 5+2+3'; input.setAttribute('aria-label', MODES[k].label + ' distance entries'); input.addEventListener('input', () => { state.vals[k] = parseAddition(input.value); schedule(); }); input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } }); input.addEventListener('blur', () => { const n = parseAddition(input.value); if (input.value.trim()) input.value = fmt(n); state.vals[k] = n; schedule(); }); stack.appendChild(input); rows[k].num = input; state.meta[k] = defaultMeta(k); refreshRow(k); });
+  ROW_ORDER.forEach(k => { rows[k].num.value = state.vals[k]; state.meta[k] = defaultMeta(k); refreshRow(k); });
   schedule();
 });
 
