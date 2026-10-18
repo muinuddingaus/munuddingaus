@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Activity Tracker | Muinuddin Gaus</title>
 <link rel="stylesheet" href="../style.css">
-<link rel="icon" type="image/jpeg" href="../images/profile-logo.jpg">
+<link rel="icon" type="image/jpeg" href="/images/profile-logo.jpg">
+<link rel="shortcut icon" type="image/jpeg" href="/images/profile-logo.jpg">
+<link rel="apple-touch-icon" href="/images/profile-logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Hind+Siliguri:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -158,6 +160,19 @@
     .grid{grid-template-columns:1fr}
     .preview{position:static;max-width:440px;margin:0 auto;width:100%}
   }
+
+  /* Mobile-only More menu for the Activity Tracker header. */
+  #activityMoreWrap{display:none;position:relative;flex:0 0 auto}
+  #activityMoreBtn{font:inherit;font-weight:600;cursor:pointer;border-radius:999px;min-height:38px;padding:8px 13px;white-space:nowrap}
+  #activityMoreMenu{display:none;position:absolute;z-index:9999;top:calc(100% + 8px);left:0;min-width:190px;padding:7px;border:1px solid var(--line,#ded8cc);border-radius:16px;background:var(--card,#fff);box-shadow:0 12px 30px rgba(10,30,45,.16)}
+  #activityMoreMenu.open{display:grid;gap:3px}
+  #activityMoreMenu a{display:block;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--ink,#17251f);font-weight:600}
+  #activityMoreMenu a:hover{background:var(--soft,#f2eee6)}
+  html[data-theme="dark"] #activityMoreMenu{background:#172631;border-color:#30434f}
+  html[data-theme="dark"] #activityMoreMenu a{color:#e8f0f4}
+  html[data-theme="dark"] #activityMoreMenu a:hover{background:#253e4b}
+  @media(max-width:760px){#activityMoreWrap{display:block}}
+
 </style>
 </head>
 <body>
@@ -211,6 +226,7 @@
         <canvas id="story" width="1080" height="1920"></canvas>
       </div>
       <button class="btn primary" id="dlBtn" type="button" data-en="Download PNG (1080 × 1920)" data-bn="PNG ডাউনলোড (1080 × 1920)" style="width:100%;margin-top:14px;font-size:16px;padding:16px">Download PNG (1080 × 1920)</button>
+      <p style="text-align:center;margin:10px 0 0;font-size:14px;line-height:1.5;color:var(--ink)"><span data-en="Open the tracker: " data-bn="ট্র্যাকার খুলুন: ">Open the tracker: </span><a href="https://muinuddingaus.vercel.app/tools/activity-tracker" target="_blank" rel="noopener noreferrer" style="color:var(--teal);font-weight:700">https://muinuddingaus.vercel.app/tools/activity-tracker</a></p>
     </aside>
   </div>
 </div>
@@ -873,7 +889,7 @@ function render(){
   card(CX, FY, CW, FH, 34);
   const qr = QR.make(QR_URL), n = qr.size, cell = 5, qsz = n * cell;
   const qx = CX + CW - 28 - qsz, qy = FY + (FH - qsz) / 2;
-  c.fillStyle = INK;
+  c.fillStyle = '#071b2b'; // Deep navy QR modules for stronger contrast
   for (let y = 0; y < n; y++) {
     for (let x = 0; x < n; x++) {
       if (!qr.matrix[y][x]) continue;
@@ -891,7 +907,10 @@ function render(){
   c.fillStyle = INK; c.fillText('or visit', CX + 40, FY + FH / 2 + fs + 6);
   const prefix = 'or visit '; const linkText = 'https://cutt.ly/Gaus_TR';
   c.fillStyle = INK; c.fillText(prefix, CX + 40, FY + FH / 2 + fs + 6);
-  c.fillStyle = TEAL; c.fillText(linkText, CX + 40 + c.measureText(prefix).width, FY + FH / 2 + fs + 6);
+  const linkX = CX + 40 + c.measureText(prefix).width;
+  const linkY = FY + FH / 2 + fs + 6;
+  c.fillStyle = TEAL; c.fillText(linkText, linkX, linkY);
+  c.fillStyle = INK; c.fillText(' to generate.', linkX + c.measureText(linkText).width, linkY);
 }
 
 /* ---------- UI wiring ---------- */
@@ -1082,5 +1101,45 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { re
   setTimeout(translateDynamic,0);
 })();
 </script>
+
+<script>
+/* Mobile-only More menu. Uses the existing site's navigation links and leaves desktop unchanged. */
+(function(){
+  function addMobileMore(){
+    const header=document.querySelector('body > header');
+    if(!header || header.querySelector('#activityMoreWrap')) return !!header;
+    const tools=header.querySelector('.tools');
+    const nav=header.querySelector('nav');
+    const lang=header.querySelector('#lang');
+    if(!tools || !nav || !lang) return false;
+    const wrap=document.createElement('div');
+    wrap.id='activityMoreWrap';
+    const btn=document.createElement('button');
+    btn.type='button'; btn.id='activityMoreBtn'; btn.className='pill';
+    btn.textContent=document.documentElement.lang==='bn'?'আরও':'More';
+    btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-haspopup','true');
+    const menu=document.createElement('div'); menu.id='activityMoreMenu'; menu.setAttribute('role','menu');
+    nav.querySelectorAll('a').forEach(original=>{
+      const a=original.cloneNode(true); a.removeAttribute('class'); a.setAttribute('role','menuitem');
+      a.addEventListener('click',()=>{menu.classList.remove('open');btn.setAttribute('aria-expanded','false')});
+      menu.appendChild(a);
+    });
+    btn.addEventListener('click',e=>{e.stopPropagation();const open=menu.classList.toggle('open');btn.setAttribute('aria-expanded',String(open))});
+    wrap.append(btn,menu);
+    tools.insertBefore(wrap,lang);
+    document.addEventListener('click',e=>{if(!wrap.contains(e.target)){menu.classList.remove('open');btn.setAttribute('aria-expanded','false')}});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'){menu.classList.remove('open');btn.setAttribute('aria-expanded','false')}});
+    const observer=new MutationObserver(()=>{btn.textContent=document.documentElement.lang==='bn'?'আরও':'More'});
+    observer.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+    return true;
+  }
+  if(!addMobileMore()){
+    const observer=new MutationObserver(()=>{if(addMobileMore())observer.disconnect()});
+    observer.observe(document.body,{childList:true,subtree:true});
+    window.addEventListener('load',addMobileMore,{once:true});
+  }
+})();
+</script>
+
 </body>
 </html>
